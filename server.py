@@ -10,8 +10,12 @@ def home():
 @app.route('/emotionDetector')
 def emotionDetector():
     text_to_analyse = request.args.get('textToAnalyze')
+    
     output = emotion_detector(text_to_analyse)
-    print(output)
+
+    if output['dominant_emotion'] == None:
+        return '<strong>Invalid text! Please try again!<strong>'
+
     system_response = f'''
     For the given statement, the system response is
     'anger': {output['anger']},
@@ -21,6 +25,7 @@ def emotionDetector():
     'sadness': {output['sadness']}.
     The dominant emotion is <strong>{output['dominant_emotion']}<strong>.
     '''
+    
     return system_response
 
 
